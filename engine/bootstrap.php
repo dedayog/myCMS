@@ -11,8 +11,9 @@ try {
 
     $services = require __DIR__ . '/Config/Service.php';
 
-    foreach($services as $service){
+    foreach ($services as $service) {
         $provider = new $service($di);
+
         $provider->init();
     }
 
