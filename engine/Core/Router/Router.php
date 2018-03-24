@@ -5,6 +5,7 @@ namespace Engine\Core\Router;
 class Router
 {
     private $routes = [];
+    private $dispatcher;
     private $host;
 
     /**
@@ -29,5 +30,31 @@ class Router
             'controller' => $controller,
             'method' => $method
         ];
+    }
+
+    /**
+     * @param $method
+     * @param $uri
+     * @return DispatchedRoute
+     */
+    public function Dispatch($method, $uri)
+    {
+        return $this->getDispatcher()->dispatch($method, $uri);
+    }
+
+    /**
+     * @return UrlDispatcher
+     */
+    public function getDispatcher()
+    {
+        if ($this->getDispatcher == null) {
+            $this->dispatcher = new UrlDispatcher();
+
+            foreach ($this->routes as $route) {
+                $this->dispatcher->register($route['method'], $route['pattern'], $route['controller']);
+            }
+        }
+
+        return $this->dispatcher;
     }
 }

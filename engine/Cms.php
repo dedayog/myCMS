@@ -1,12 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Dan
- * Date: 24.03.2018
- * Time: 12:50
- */
 
 namespace Engine;
+
+use Engine\Helper\Common;
 
 class Cms
 {
@@ -18,7 +14,7 @@ class Cms
     public $router;
 
     /**
-     * Cms constructor.
+     * cms constructor.
      * @param $di
      */
     public function __construct($di)
@@ -35,9 +31,12 @@ class Cms
     {
 
         $this->router->add('home', '/', 'HomeController:index');
-        $this->router->add('product', '/product/{id}', 'ProductController:index');
+        $this->router->add('product', '/user/12', 'ProductController:index');
 
-        print_r($this->di);
+        $routerDispatch = $this->router->dispatch(Common::getMethod(), Common::getPathUrl());
+
+        //print_r($this->di);
+        print_r($routerDispatch);
 
     }
 }
