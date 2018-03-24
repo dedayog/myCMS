@@ -39,7 +39,7 @@ class Cms
 
         $controller = '\\Cms\\Controller\\' . $class;
 
-        call_user_func_array([new $controller($this->$di), $action]);
+        call_user_func_array([new $controller($this->di), $action], $routerDispatch->getParameters());
         //print_r($routerDispatch);
 
     }
