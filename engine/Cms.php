@@ -35,8 +35,12 @@ class Cms
 
         $routerDispatch = $this->router->dispatch(Common::getMethod(), Common::getPathUrl());
 
-        //print_r($this->di);
-        print_r($routerDispatch);
+        list($class, $action) = explode(':', $routerDispatch->getController(), 2);
+
+        $controller = '\\Cms\\Controller\\' . $class;
+
+        call_user_func_array([new $controller($this->di), $action], $routerDispatch->getParameters());
+        //print_r($routerDispatch);
 
     }
 }
