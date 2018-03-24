@@ -31,7 +31,7 @@ class Cms
     {
 
         $this->router->add('home', '/', 'HomeController:index');
-        $this->router->add('product', '/user/12', 'ProductController:index');
+        $this->router->add('product', '/news', 'HomeController:news');
 
         $routerDispatch = $this->router->dispatch(Common::getMethod(), Common::getPathUrl());
 
