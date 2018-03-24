@@ -1,0 +1,16 @@
+{
+    "name": "dan/my-cms.loc",
+    "authors": [
+        {
+            "name": "Dan",
+            "email": "89132135656@mail.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4":{
+            "Engine\\": "engine",
+            "Engine\\DI\\": "engine/DI"
+        }
+    }
+}
