@@ -20,9 +20,4 @@ class HomeController extends Controller
         echo 'Index page';
     }
 
-    public function news()
-    {
-        echo 'News page';
-    }
-
 }
