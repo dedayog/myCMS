@@ -2,14 +2,26 @@
 
 namespace Engine\Core\Template;
 
-
 class View
 {
+    /**
+     * @var \Engine\Core\Template\Theme
+     */
+    protected $theme;
+
+    /**
+     * View constructor.
+     */
     public function __construct()
     {
-
+        $this->theme = new Theme();
     }
 
+    /**
+     * @param $template
+     * @param array $vars
+     * @throws \Exception
+     */
     public function render($template, $vars = [])
     {
         $templatePath = ROOT_DIR . '/content/themes/default/' . $template . '.php';
@@ -19,6 +31,7 @@ class View
             );
         }
 
+        $this->theme->setData($vars);
         extract($vars);
 
         ob_start();
