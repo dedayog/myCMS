@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'base'
+    'base_url' => 'http://localhost'
 ];
