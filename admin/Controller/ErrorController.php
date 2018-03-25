@@ -6,7 +6,7 @@ class ErrorController extends AdminController
 {
     public function page404()
     {
-        echo '404 page';
+        echo 'admin 404 page';
     }
 }
 

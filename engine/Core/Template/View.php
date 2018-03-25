@@ -54,7 +54,7 @@ class View
                 return ROOT_DIR . '/admin/View/' . $template . '.php';
                 break;
             case 'Cms':
-                return ROOT_DIR . '/content/themes/default' . $template . '.php';
+                return ROOT_DIR . '/content/themes/default/' . $template . '.php';
                 break;
             default:
                 return ROOT_DIR . '/' . mb_strtolower($env) . '/View/' . $template . '.php';

@@ -16,6 +16,5 @@ class AdminController extends Controller
         parent::__construct($di);
     }
 
-
 }
 
