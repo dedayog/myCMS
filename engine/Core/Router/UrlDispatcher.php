@@ -48,14 +48,21 @@ class UrlDispatcher
         return isset($this->routes[$method]) ? $this->routes[$method] : [];
     }
 
+    /**
+     * @param $method
+     * @param $pattern
+     * @param $controller
+     */
     public function register($method, $pattern, $controller)
     {
-        print_r($pattern);
-        echo '<br>';
         $convert = $this->convertPattern($pattern);
-        $this->routes[strtoupper($method)][$pattern] = $controller;
+        $this->routes[strtoupper($method)][$convert] = $controller;
     }
 
+    /**
+     * @param $pattern
+     * @return null|string|string[]
+     */
     private function convertPattern($pattern)
     {
         if (strpos($pattern, '(') === false) {
@@ -66,13 +73,35 @@ class UrlDispatcher
 
     }
 
+    /**
+     * @param $matches
+     * @return string
+     */
     private function replacePattern($matches)
     {
-        print_r($matches);
-
-        return '(<?' . $matches[1] . '>' . strtr($matches[2], $this->patterns) . ')';
+        return '(?<' . $matches[1] . '>' . strtr($matches[2], $this->patterns) . ')';
     }
 
+    /**
+     * @param $parameters
+     * @return mixed
+     */
+    private function processParam($parameters)
+    {
+        foreach ($parameters as $key => $value) {
+            if (is_int($key)) {
+                unset($parameters[$key]);
+            }
+        }
+
+        return $parameters;
+    }
+
+    /**
+     * @param $method
+     * @param $uri
+     * @return DispatchedRoute
+     */
     public function dispatch($method, $uri)
     {
         $routes = $this->routes(strtoupper($method));
@@ -95,7 +124,7 @@ class UrlDispatcher
             $pattern = '#^' . $route . '$#s';
 
             if (preg_match($pattern, $uri, $parameters)) {
-                return new DispatchedRoute($controller, $parameters);
+                return new DispatchedRoute($controller, $this->processParam($parameters));
 
             }
         }
