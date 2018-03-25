@@ -24,7 +24,7 @@ class View
      */
     public function render($template, $vars = [])
     {
-        $templatePath = ROOT_DIR . '/content/themes/default/' . $template . '.php';
+        $templatePath = $this->getTemplatePath($template, ENV);
 
         if (!is_file($templatePath)) {
             throw new \InvalidArgumentException(sprintf('Template "%s" not found in "%s"', $template, $templatePath)
@@ -45,5 +45,19 @@ class View
         }
 
         echo ob_get_clean();
+    }
+
+    private function getTemplatePath($template, $env = null)
+    {
+        switch ($env) {
+            case 'Admin':
+                return ROOT_DIR . '/admin/View/' . $template . '.php';
+                break;
+            case 'Cms':
+                return ROOT_DIR . '/content/themes/default' . $template . '.php';
+                break;
+            default:
+                return ROOT_DIR . '/' . mb_strtolower($env) . '/View/' . $template . '.php';
+        }
     }
 }
