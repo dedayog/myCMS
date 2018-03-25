@@ -39,9 +39,38 @@ class UrlDispatcher
         $this->patterns[$key] = $pattern;
     }
 
+    /**
+     * @param $method
+     * @return array|mixed
+     */
+    private function routes($method)
+    {
+        return isset($this->routes[$method]) ? $this->routes[$method] : [];
+    }
+
     public function register($method, $pattern, $controller)
     {
+        print_r($pattern);
+        echo '<br>';
+        $convert = $this->convertPattern($pattern);
         $this->routes[strtoupper($method)][$pattern] = $controller;
+    }
+
+    private function convertPattern($pattern)
+    {
+        if (strpos($pattern, '(') === false) {
+            return $pattern;
+        }
+
+        return preg_replace_callback('#\((\w+):(\w+)\)#', [$this, 'replacePattern'], $pattern);
+
+    }
+
+    private function replacePattern($matches)
+    {
+        print_r($matches);
+
+        return '(<?' . $matches[1] . '>' . strtr($matches[2], $this->patterns) . ')';
     }
 
     public function dispatch($method, $uri)
@@ -53,15 +82,6 @@ class UrlDispatcher
         }
 
         return $this->doDispatch($method, $uri);
-    }
-
-    /**
-     * @param $method
-     * @return array|mixed
-     */
-    private function routes($method)
-    {
-        return isset($this->routes[$method]) ? $this->routes[$method] : [];
     }
 
     /**
