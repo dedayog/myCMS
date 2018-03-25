@@ -19,4 +19,5 @@ abstract class AbstractProvider
     }
 
     abstract function init();
+
 }
